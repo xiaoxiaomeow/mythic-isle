@@ -1,5 +1,6 @@
 package com.bluebear.ui.localization;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.bluebear.ui.SkinLoader;
 

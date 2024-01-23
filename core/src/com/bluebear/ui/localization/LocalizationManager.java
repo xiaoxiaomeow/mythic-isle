@@ -2,11 +2,14 @@ package com.bluebear.ui.localization;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.I18NBundle;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class LocalizationManager {
@@ -23,7 +26,7 @@ public class LocalizationManager {
         uiElements.remove(localizable);
     }
     private static I18NBundle bundle;
-    private static BitmapFont font;
+    private static Map<String, BitmapFont> fonts;
     public static void changeTo (Locale locale) {
         current = locale;
 
@@ -32,11 +35,22 @@ public class LocalizationManager {
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/fonts/" + current + ".ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 60;
         parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + allCharactersIn(bundle);
-        font = generator.generateFont(parameter);
+        fonts = new HashMap<>();
+
+        parameter.size = 60;
+        BitmapFont medium = generator.generateFont(parameter);
+        medium.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        fonts.put("medium", medium);
+        fonts.put("default", medium);
+
+        parameter.size = 144;
+        BitmapFont big = generator.generateFont(parameter);
+        big.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        fonts.put("big", big);
 
         for (Localizable uiElement : uiElements) {
+            Gdx.app.log(LocalizationManager.class.getName(), uiElement.getClass().getName());
             uiElement.update();
         }
     }
@@ -64,6 +78,10 @@ public class LocalizationManager {
         if (current == null) {
             changeTo(defaultLocale);
         }
-        return font;
+        if (fonts.containsKey(key)) {
+            return fonts.get(key);
+        } else {
+            return fonts.get("default");
+        }
     }
 }

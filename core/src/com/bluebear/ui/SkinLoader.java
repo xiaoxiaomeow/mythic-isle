@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.bluebear.ui.localization.LocalizationManager;
 import com.bluebear.ui.localization.LocalizationManager.Locale;
-import com.bluebear.ui.localization.LocalizedSkin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +28,11 @@ public class SkinLoader {
         return skins.get(locale);
     }
     private static void loadSkin (Locale locale) {
-        Skin skin = new LocalizedSkin();
+        Skin skin = new Skin();
 
         // font
         BitmapFont medium = LocalizationManager.getFont("medium");
+        BitmapFont big = LocalizationManager.getFont("big");
 
         // single color
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -51,6 +51,11 @@ public class SkinLoader {
         textButtonStyleMedium.downFontColor = Color.GRAY;
         textButtonStyleMedium.font = medium;
         skin.add("default", textButtonStyleMedium);
+
+        TextButtonStyle mainMenuButtonStyle = new TextButtonStyle();
+        mainMenuButtonStyle.fontColor = new Color(0x2E014EFF);
+        mainMenuButtonStyle.font = big;
+        skin.add("pointer", mainMenuButtonStyle);
 
         // title label
         LabelStyle titleStyle = new LabelStyle();

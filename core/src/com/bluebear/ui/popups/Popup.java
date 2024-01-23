@@ -1,4 +1,4 @@
-package com.bluebear.ui;
+package com.bluebear.ui.popups;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,12 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
+import com.bluebear.ui.screens.ScreenWithPopups;
 import com.bluebear.ui.localization.LocalizedLabel;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Popup extends Table {
+public class Popup extends PopupWindow {
     public enum Size {
         Large, Medium, Small
     }
@@ -40,6 +41,10 @@ public class Popup extends Table {
 
     protected final Table mainTable;
     public Popup (ScreenWithPopups parent, String title, Size size) {
+        super(parent);
+        Table outerTable = new Table();
+        add(outerTable);
+
         Stack mainStack = new Stack();
         mainTable = new Table();
 
@@ -74,8 +79,8 @@ public class Popup extends Table {
         mainTable.setFillParent(true);
         mainTable.pad(100, 20, 60, 20);
 
-        add(mainStack);
-        add(close).align(Align.top).padLeft(-20).padTop(65);
+        outerTable.add(mainStack);
+        outerTable.add(close).align(Align.top).padLeft(-20).padTop(65);
     }
     public Popup (ScreenWithPopups parent, String title) {
         this(parent, title, Size.Large);

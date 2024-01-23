@@ -2,12 +2,9 @@ package com.bluebear.ui.popups;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.bluebear.ui.Popup;
-import com.bluebear.ui.ScreenWithPopups;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.screens.ScreenWithPopups;
 import com.bluebear.ui.localization.LocalizedTextButton;
 
 public class GameMenu extends Popup {

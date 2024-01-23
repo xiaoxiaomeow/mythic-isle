@@ -1,4 +1,4 @@
-package com.bluebear.ui;
+package com.bluebear.ui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,17 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.bluebear.Constants;
 import com.bluebear.Game;
 import com.bluebear.ui.localization.LocalizationManager;
+import com.bluebear.ui.popups.Popup;
+import com.bluebear.ui.popups.PopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScreenWithPopups extends ScreenAdapter {
     public Game game;
-    protected final List<Popup> popups;
+    protected final List<PopupWindow> popups;
     protected final Stage stage;
     private final Stack mainStack;
     public final Image background;
@@ -39,6 +42,7 @@ public class ScreenWithPopups extends ScreenAdapter {
         stage.addActor(mainStack);
         mainStack.add(background);
         mainStack.add(mainTable);
+        mainTable.align(Align.topLeft);
 
         stage.addListener(new InputListener(){
             @Override
@@ -73,16 +77,16 @@ public class ScreenWithPopups extends ScreenAdapter {
         return false;
     }
 
-    public void popup (Popup popup) {
+    public void popup (PopupWindow popup) {
         popups.add(popup);
         mainStack.addActor(popup);
     }
-    public void close (Popup popup) {
+    public void close (PopupWindow popup) {
         popups.remove(popup);
         mainStack.removeActor(popup);
     }
     public void closeTop () {
-        Popup popup = popups.remove(popups.size() - 1);
+        PopupWindow popup = popups.remove(popups.size() - 1);
         mainStack.removeActor(popup);
     }
 
