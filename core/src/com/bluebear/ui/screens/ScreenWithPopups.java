@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,7 +25,6 @@ import java.util.List;
 
 public class ScreenWithPopups extends ScreenAdapter {
     public Game game;
-    protected final List<PopupWindow> popups;
     protected final Stage stage;
     private final Stack mainStack;
     public final Image background;
@@ -31,14 +32,12 @@ public class ScreenWithPopups extends ScreenAdapter {
     public ScreenWithPopups (Game game) {
         this.game = game;
 
-        popups = new ArrayList<>();
         stage = new Stage(new FillViewport(Constants.WIDTH, Constants.HEIGHT));
         mainStack = new Stack();
         background = new Image();
         mainTable = new Table();
 
         mainStack.setFillParent(true);
-        mainTable.setFillParent(true);
         stage.addActor(mainStack);
         mainStack.add(background);
         mainStack.add(mainTable);
@@ -48,8 +47,7 @@ public class ScreenWithPopups extends ScreenAdapter {
             @Override
             public boolean keyDown (InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    if (!popups.isEmpty()) {
-                        closeTop();
+                    if (closeTop()) {
                         return true;
                     } else {
                         return escOnEmptyStack();
@@ -78,16 +76,19 @@ public class ScreenWithPopups extends ScreenAdapter {
     }
 
     public void popup (PopupWindow popup) {
-        popups.add(popup);
+        popup.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.1f)));
         mainStack.addActor(popup);
     }
     public void close (PopupWindow popup) {
-        popups.remove(popup);
-        mainStack.removeActor(popup);
+        popup.requestClose();
     }
-    public void closeTop () {
-        PopupWindow popup = popups.remove(popups.size() - 1);
-        mainStack.removeActor(popup);
+    public boolean closeTop () {
+        Actor actor = mainStack.getChild(mainStack.getChildren().size - 1);
+        if (actor instanceof PopupWindow) {
+            close((PopupWindow) actor);
+            return true;
+        }
+        return false;
     }
 
     @Override

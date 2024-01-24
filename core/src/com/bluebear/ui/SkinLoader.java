@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -31,8 +33,8 @@ public class SkinLoader {
         Skin skin = new Skin();
 
         // font
-        BitmapFont medium = LocalizationManager.getFont("medium");
-        BitmapFont big = LocalizationManager.getFont("big");
+        BitmapFont medium = LocalizationManager.getFont("art", 60);
+        BitmapFont big = LocalizationManager.getFont("art", 144);
 
         // single color
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -40,28 +42,23 @@ public class SkinLoader {
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
 
-        // text button
-        TextButtonStyle textButtonStyleMedium = new TextButtonStyle();
-        TextureRegionDrawable buttonUpMedium = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/TextBTN_Medium.png")));
-        TextureRegionDrawable buttonDownMedium = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/TextBTN_Medium_Pressed.png")));
-        textButtonStyleMedium.up = buttonUpMedium;
-        textButtonStyleMedium.down = buttonDownMedium;
-        textButtonStyleMedium.unpressedOffsetY = textButtonStyleMedium.checkedOffsetY = 15;
-        textButtonStyleMedium.pressedOffsetY = -7;
-        textButtonStyleMedium.downFontColor = Color.GRAY;
-        textButtonStyleMedium.font = medium;
-        skin.add("default", textButtonStyleMedium);
-
         TextButtonStyle mainMenuButtonStyle = new TextButtonStyle();
         mainMenuButtonStyle.fontColor = new Color(0x2E014EFF);
         mainMenuButtonStyle.font = big;
         skin.add("pointer", mainMenuButtonStyle);
 
-        // title label
-        LabelStyle titleStyle = new LabelStyle();
-        titleStyle.background = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/IRONY TITLE Large.png")));
-        titleStyle.font = medium;
-        skin.add("title", titleStyle);
+        TextButtonStyle tabButtonStyle = new TextButtonStyle();
+        // tabButtonStyle.over = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/UI_Settings_BackValue.png")));
+        tabButtonStyle.fontColor = new Color(0x9A7C68FF);
+        tabButtonStyle.overFontColor = new Color(0xD4BEB1FF);
+        tabButtonStyle.font = medium;
+        skin.add("tab", tabButtonStyle);
+
+        ButtonStyle closeButton = new ButtonStyle();
+        closeButton.up = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/UI_Inventory_CloseButton_Default.png")));
+        closeButton.over = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/UI_Inventory_CloseButton_Hover.png")));
+        closeButton.down = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/UI_Inventory_CloseButton_Click.png")));
+        skin.add("close", closeButton);
 
         // input
         TextFieldStyle textFieldStyle = new TextFieldStyle();

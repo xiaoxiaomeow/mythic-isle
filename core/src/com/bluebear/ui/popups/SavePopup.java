@@ -8,8 +8,8 @@ import com.bluebear.ui.localization.LocalizedTextButton;
 import com.bluebear.ui.localization.LocalizedTextFieldWithDefaultText;
 
 public class SavePopup extends Popup {
-    public SavePopup(ScreenWithPopups parent) {
-        super(parent, "SavePopupTitle", Size.Large);
+    public SavePopup (ScreenWithPopups parent) {
+        super("SavePopupTitle", Size.Large);
 
         TextField input = new LocalizedTextFieldWithDefaultText("SavePopupEnterSaveName");
         TextButton save = new LocalizedTextButton("SavePopupSave");

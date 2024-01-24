@@ -45,8 +45,7 @@ public class MainMenuScreen extends ScreenWithPopups {
         settingsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log(MainMenuScreen.class.getName(), "popup");
-                PopupWindow raw = new FullScreenPopup(MainMenuScreen.this);
+                PopupWindow raw = new FullScreenPopup();
                 popup(raw);
             }
         });

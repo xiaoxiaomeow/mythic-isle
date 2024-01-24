@@ -3,6 +3,7 @@ package com.bluebear.ui.popups;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
@@ -40,8 +41,7 @@ public class Popup extends PopupWindow {
     }
 
     protected final Table mainTable;
-    public Popup (ScreenWithPopups parent, String title, Size size) {
-        super(parent);
+    public Popup (String title, Size size) {
         Table outerTable = new Table();
         add(outerTable);
 
@@ -58,7 +58,7 @@ public class Popup extends PopupWindow {
         close.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                parent.close(Popup.this);
+                close();
             }
         });
         label.addListener(new DragListener() {
@@ -82,7 +82,7 @@ public class Popup extends PopupWindow {
         outerTable.add(mainStack);
         outerTable.add(close).align(Align.top).padLeft(-20).padTop(65);
     }
-    public Popup (ScreenWithPopups parent, String title) {
-        this(parent, title, Size.Large);
+    public Popup (String title) {
+        this(title, Size.Large);
     }
 }

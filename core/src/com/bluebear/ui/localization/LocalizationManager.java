@@ -26,31 +26,15 @@ public class LocalizationManager {
         uiElements.remove(localizable);
     }
     private static I18NBundle bundle;
-    private static Map<String, BitmapFont> fonts;
+    private static Map<String, Map<Integer, BitmapFont>> fonts;
     public static void changeTo (Locale locale) {
         current = locale;
+        fonts = new HashMap<>();
 
         FileHandle base = Gdx.files.internal("i18n/ui");
         bundle = I18NBundle.createBundle(base, new java.util.Locale(current.toString()), "UTF-8");
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/fonts/" + current + ".ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + allCharactersIn(bundle);
-        fonts = new HashMap<>();
-
-        parameter.size = 60;
-        BitmapFont medium = generator.generateFont(parameter);
-        medium.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        fonts.put("medium", medium);
-        fonts.put("default", medium);
-
-        parameter.size = 144;
-        BitmapFont big = generator.generateFont(parameter);
-        big.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        fonts.put("big", big);
-
         for (Localizable uiElement : uiElements) {
-            Gdx.app.log(LocalizationManager.class.getName(), uiElement.getClass().getName());
             uiElement.update();
         }
     }
@@ -74,14 +58,29 @@ public class LocalizationManager {
         }
         return bundle.format(key, args);
     }
-    public static BitmapFont getFont (String key) {
+    public static BitmapFont getFont (int size) {
+        return getFont("default", size);
+    }
+    public static BitmapFont getFont (String key, int size) {
         if (current == null) {
             changeTo(defaultLocale);
         }
-        if (fonts.containsKey(key)) {
-            return fonts.get(key);
-        } else {
-            return fonts.get("default");
+        if (!fonts.containsKey(key)) {
+            fonts.put(key, new HashMap<>());
         }
+        Map<Integer, BitmapFont> keyFonts = fonts.get(key);
+        if (!keyFonts.containsKey(size)) {
+            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/fonts/" + current + "_" + key + ".ttf"));
+            FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+            parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + allCharactersIn(bundle);
+
+            parameter.size = size;
+            BitmapFont font = generator.generateFont(parameter);
+            font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            keyFonts.put(size, font);
+
+            generator.dispose();
+        }
+        return keyFonts.get(size);
     }
 }
