@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.bluebear.Game;
 import com.bluebear.ui.popups.FullScreenPopup;
 import com.bluebear.ui.popups.PopupWindow;
+import com.bluebear.ui.popups.SettingsPopup;
 import com.bluebear.ui.widgets.PointerButton;
 
 public class MainMenuScreen extends ScreenWithPopups {
@@ -45,8 +46,8 @@ public class MainMenuScreen extends ScreenWithPopups {
         settingsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PopupWindow raw = new FullScreenPopup();
-                popup(raw);
+                PopupWindow settings = new SettingsPopup();
+                popup(settings);
             }
         });
         exitButton.addListener(new ClickListener() {

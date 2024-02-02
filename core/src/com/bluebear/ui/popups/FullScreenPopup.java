@@ -1,55 +1,20 @@
 package com.bluebear.ui.popups;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.bluebear.ui.SkinLoader;
 import com.bluebear.ui.localization.LocalizedTextButton;
-import com.bluebear.ui.screens.ScreenWithPopups;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FullScreenPopup extends PopupWindow {
-    private static Texture backgroundTableTexture;
-    public static Texture getBackgroundTableTexture() {
-        if (backgroundTableTexture == null) {
-            backgroundTableTexture = new Texture(Gdx.files.internal("ui/UI_BackgroundTable.png"));
-            backgroundTableTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
-        return backgroundTableTexture;
-    }
-    private static Texture backgroundPaperTexture;
-    public static Texture getBackgroundPaperTexture() {
-        if (backgroundPaperTexture == null) {
-            backgroundPaperTexture = new Texture(Gdx.files.internal("ui/UI_BackgroundPaper.png"));
-            backgroundPaperTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
-        return backgroundPaperTexture;
-    }
-    private static Texture tabTexture;
-    public static Texture getTabTexture() {
-        if (tabTexture == null) {
-            tabTexture = new Texture(Gdx.files.internal("ui/UI_BackgroundTableTopMenuSelector.png"));
-            tabTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
-        return tabTexture;
-    }
-    private static Texture selectorTexture;
-    public static Texture getSelectorTexture() {
-        if (selectorTexture == null) {
-            selectorTexture = new Texture(Gdx.files.internal("ui/UI_TopMenuActive.png"));
-            selectorTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
-        return selectorTexture;
-    }
     private final Table tabRow;
     private final Container<Table> contentContainer;
 
@@ -62,7 +27,7 @@ public class FullScreenPopup extends PopupWindow {
 
         Table outerTable = new Table();
         outerTable.setFillParent(true);
-        outerTable.setBackground(new TextureRegionDrawable(getBackgroundTableTexture()));
+        outerTable.setBackground(new TextureRegionDrawable(SkinLoader.getUITexture("UI_BackgroundTable")));
 
         tabRow = new Table();
         tabRow.align(Align.topLeft);
@@ -80,8 +45,9 @@ public class FullScreenPopup extends PopupWindow {
         });
 
         Table innerTable = new Table();
-        innerTable.setBackground(new TextureRegionDrawable(getBackgroundPaperTexture()));
+        innerTable.setBackground(new TextureRegionDrawable(SkinLoader.getUITexture("UI_BackgroundPaper")));
         contentContainer = new Container<>();
+        contentContainer.align(Align.topLeft);
         innerTable.add(contentContainer).expand().fill();
 
         outerTable.add(innerTable).padTop(-25).colspan(2).fill().expand();
@@ -91,16 +57,10 @@ public class FullScreenPopup extends PopupWindow {
         tabButtons = new ArrayList<>();
         tabContents = new ArrayList<>();
 
-        selector = new Image(getSelectorTexture());
+        selector = new Image(SkinLoader.getUITexture("UI_TopMenuActive"));
         tabRow.addActor(selector);
         selector.setZIndex(1);
-
-        addTab("Game", new Table());
-        addTab("Controls", new Table());
-        addTab("Graphics", new Table());
-        addTab("Sound", new Table());
-
-        selectTab(0);
+        selector.setVisible(false);
     }
 
     private final List<LocalizedTextButton> tabButtons;
@@ -120,7 +80,7 @@ public class FullScreenPopup extends PopupWindow {
         tabRow.add(tab).padTop(20).prefWidth(500);
         tab.setZIndex(index + 2);
 
-        Image tabSeparator = new Image(getTabTexture());
+        Image tabSeparator = new Image(SkinLoader.getUITexture("UI_BackgroundTableTopMenuSelector"));
         tabRow.add(tabSeparator);
         tabSeparator.setZIndex(0);
 
@@ -128,6 +88,7 @@ public class FullScreenPopup extends PopupWindow {
     }
     protected void selectTab (int index) {
         LocalizedTextButton tabButton = tabButtons.get(index);
+        selector.setVisible(true);
         selector.setPosition( Math.max(tabButton.getX(), 200) - 100, -70);
         contentContainer.setActor(tabContents.get(index));
     }
