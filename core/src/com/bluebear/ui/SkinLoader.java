@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
@@ -18,9 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.bluebear.ui.localization.LocalizationManager;
-import com.bluebear.ui.settings.Settings;
+import com.bluebear.file.Settings;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class SkinLoader {
             return null;
         }
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ui/fonts/" + LocalizationManager.current + "_" + key + ".ttf"));
+
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + LocalizationManager.allCharacters();
         parameter.minFilter = Texture.TextureFilter.Linear;
@@ -45,7 +47,7 @@ public class SkinLoader {
         parameter.size = (int) (size * Settings.getScaleFactor());
 
         BitmapFont font = generator.generateFont(parameter);
-        font.getData().setScale(1.0f / Settings.getScaleFactor());
+
         generator.dispose();
 
         return font;
@@ -59,20 +61,26 @@ public class SkinLoader {
             UITextures.put(file.nameWithoutExtension(), texture);
         }
     }
-    public static Texture getUITexture (String key) {
-        return UITextures.get(key);
-    }
-    public static NinePatch getUINinePatch (String key) {
+    public static NinePatchDrawable getUIDrawable(String key) {
         Texture texture = UITextures.get(key);
+        NinePatch ninePatch = new NinePatch(texture, 0, 0, 0, 0);
+        ninePatch.scale(Settings.getWidthScaleFactor(), Settings.getHeightScaleFactor());
+        return new NinePatchDrawable(ninePatch);
+    }
+    public static NinePatchDrawable getUINinePatchDrawable (String key) {
+        Texture texture = UITextures.get(key);
+        NinePatch ninePatch;
         int w = texture.getWidth();
         int h = texture.getHeight();
         if (w < h) {
             int r = (h - 1) / 2;
-            return new NinePatch(texture, 0, 0, r, r);
+            ninePatch = new NinePatch(texture, 0, 0, r, r);
         } else {
             int r = (w - 1) / 2;
-            return new NinePatch(texture, r, r, 0, 0);
+            ninePatch = new NinePatch(texture, r, r, 0, 0);
         }
+        ninePatch.scale(Settings.getWidthScaleFactor(), Settings.getHeightScaleFactor());
+        return new NinePatchDrawable(ninePatch);
     }
     public static void resetSkin () {
         skin = null;
@@ -82,7 +90,6 @@ public class SkinLoader {
 
         // font
         BitmapFont mediumArt = getFont("art", 60);
-
         BitmapFont smallText = getFont("text", 40);
         BitmapFont mediumText = getFont("text", 48);
 
@@ -121,10 +128,18 @@ public class SkinLoader {
 
         // button
         ButtonStyle closeButton = new ButtonStyle();
-        closeButton.up = new TextureRegionDrawable(getUITexture("UI_Inventory_CloseButton_Default"));
-        closeButton.over = new TextureRegionDrawable(getUITexture("UI_Inventory_CloseButton_Hover"));
-        closeButton.down = new TextureRegionDrawable(getUITexture("UI_Inventory_CloseButton_Click"));
+        closeButton.up = getUIDrawable("UI_Inventory_CloseButton_Default");
+        closeButton.over = getUIDrawable("UI_Inventory_CloseButton_Hover");
+        closeButton.down = getUIDrawable("UI_Inventory_CloseButton_Click");
         skin.add("close", closeButton);
+
+        // Image button
+        ImageButtonStyle triangleStyle = new ImageButtonStyle();
+        triangleStyle.up = triangleStyle.down = getUIDrawable("UI_Journal_BigMenuArrow_Right");
+        triangleStyle.checked = triangleStyle.checkedDown = getUIDrawable("UI_Journal_BigMenuArrow_Down");
+        triangleStyle.unpressedOffsetX = triangleStyle.checkedOffsetX = 5;
+        triangleStyle.unpressedOffsetY = triangleStyle.checkedOffsetY = -5;
+        skin.add("default", triangleStyle);
 
         // text area
         TextFieldStyle tooltipBoxStyle = new TextFieldStyle();
@@ -134,8 +149,8 @@ public class SkinLoader {
 
         // scroll pane
         ScrollPaneStyle scrollPaneStyle = new ScrollPaneStyle();
-        scrollPaneStyle.vScroll = new NinePatchDrawable(getUINinePatch("UI_ScrollVertical_bg"));
-        scrollPaneStyle.vScrollKnob = new NinePatchDrawable(getUINinePatch("UI_ScrollVertical_Handle_Default"));
+        scrollPaneStyle.vScroll = getUINinePatchDrawable("UI_ScrollVertical_bg");
+        scrollPaneStyle.vScrollKnob = getUINinePatchDrawable("UI_ScrollVertical_Handle_Default");
         skin.add("default", scrollPaneStyle);
 
         // input
@@ -151,19 +166,19 @@ public class SkinLoader {
         SelectBoxStyle selectBoxStyle = new SelectBoxStyle();
         selectBoxStyle.font = smallText;
         selectBoxStyle.fontColor = Color.WHITE;
-        selectBoxStyle.background = new TextureRegionDrawable(getUITexture("UI_TypeButton"));
-        selectBoxStyle.backgroundOver = new TextureRegionDrawable(getUITexture("UI_TypeButton_Hover"));
-        selectBoxStyle.backgroundOpen = new TextureRegionDrawable(getUITexture("UI_TypeButton_Active"));
+        selectBoxStyle.background = getUIDrawable("UI_TypeButton");
+        selectBoxStyle.backgroundOver = getUIDrawable("UI_TypeButton_Hover");
+        selectBoxStyle.backgroundOpen = getUIDrawable("UI_TypeButton_Active");
 
         ListStyle selectionBoxListStyle = new ListStyle();
         selectionBoxListStyle.font = smallText;
         selectionBoxListStyle.fontColorUnselected = Color.BLACK;
         selectionBoxListStyle.fontColorSelected = Color.BLACK;
-        selectionBoxListStyle.background = new TextureRegionDrawable(getUITexture("UI_BackgroundTooltipPaper"));
-        selectionBoxListStyle.background.setLeftWidth(20);
-        selectionBoxListStyle.background.setRightWidth(20);
-        selectionBoxListStyle.background.setTopHeight(20);
-        selectionBoxListStyle.background.setBottomHeight(20);
+        selectionBoxListStyle.background = getUIDrawable("UI_BackgroundTooltipPaper");
+        selectionBoxListStyle.background.setLeftWidth(20 * Settings.getScaleFactor());
+        selectionBoxListStyle.background.setRightWidth(20 * Settings.getScaleFactor());
+        selectionBoxListStyle.background.setTopHeight(20 * Settings.getScaleFactor());
+        selectionBoxListStyle.background.setBottomHeight(20 * Settings.getScaleFactor());
         selectionBoxListStyle.selection = skin.newDrawable("white", new Color(0x8C6F8480));
         selectionBoxListStyle.over = skin.newDrawable("white", new Color(0xB19FA480));
         selectBoxStyle.listStyle = selectionBoxListStyle;
@@ -173,8 +188,8 @@ public class SkinLoader {
 
         // slider
         SliderStyle sliderStyle = new SliderStyle();
-        sliderStyle.background = new TextureRegionDrawable(getUITexture("UI_WightLine"));
-        sliderStyle.knob = new TextureRegionDrawable(getUITexture("UI_Settings_ValueScroll"));
+        sliderStyle.background = getUIDrawable("UI_WightLine");
+        sliderStyle.knob = getUIDrawable("UI_Settings_ValueScroll");
         skin.add("default-horizontal", sliderStyle);
     }
 }

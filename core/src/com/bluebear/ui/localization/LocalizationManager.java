@@ -25,6 +25,7 @@ public class LocalizationManager {
 
         FileHandle base = Gdx.files.internal("i18n/ui");
         bundle = I18NBundle.createBundle(base, new java.util.Locale(current.toString()), "UTF-8");
+
         updateUIElements();
     }
     public static void updateUIElements () {

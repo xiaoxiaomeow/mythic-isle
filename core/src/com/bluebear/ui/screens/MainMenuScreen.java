@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.bluebear.Game;
+import com.bluebear.file.Settings;
 import com.bluebear.ui.popups.SaveLoadPopup;
 import com.bluebear.ui.popups.SettingsPopup;
 import com.bluebear.ui.widgets.PointerButton;
@@ -62,11 +63,11 @@ public class MainMenuScreen extends ScreenWithPopups {
         });
 
         for (PointerButton mainMenuButton : mainMenuButtons) {
-            buttonTable.add(mainMenuButton.getPointer()).padRight(10);
+            buttonTable.add(mainMenuButton.getPointer()).padRight(10 * Settings.getScaleFactor());
             buttonTable.add(mainMenuButton).align(Align.left).row();
         }
 
-        mainTable.add(buttonContainer).align(Align.topLeft).padLeft(2750).padBottom(580);
+        mainTable.add(buttonContainer).align(Align.topLeft).padLeft(2750 * Settings.getScaleFactor()).padBottom(580 * Settings.getScaleFactor());
     }
 
     @Override

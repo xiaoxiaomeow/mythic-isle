@@ -1,6 +1,5 @@
 package com.bluebear.ui.widgets;
 
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -9,13 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.bluebear.file.Settings;
 import com.bluebear.ui.SkinLoader;
 
 public class DecoratedScrollPane extends Table {
     public DecoratedScrollPane (Actor content) {
-        align(Align.topLeft).pad(10);
-        NinePatch topLinePatch = SkinLoader.getUINinePatch("UI_Journal_BigMenu_Border");
-        Image topLine = new Image(topLinePatch);
+        align(Align.topLeft).pad(10 * Settings.getScaleFactor());
+        Image topLine = new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenu_Border"));
         add(topLine).expandX().fillX().minHeight(topLine.getHeight()).row();
 
         ScrollPane pane = new ScrollPane(content, SkinLoader.getSkin());
@@ -32,8 +31,7 @@ public class DecoratedScrollPane extends Table {
         });
         add(pane).expand().fill().row();
 
-        NinePatch bottomLineNinePatch = SkinLoader.getUINinePatch("UI_Journal_BigMenu_Border_Bottom");
-        Image bottomLine = new Image(bottomLineNinePatch);
+        Image bottomLine = new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenu_Border_Bottom"));
         add(bottomLine).expandX().fillX().minHeight(bottomLine.getHeight());
     }
 }

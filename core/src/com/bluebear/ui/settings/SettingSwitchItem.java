@@ -6,15 +6,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.bluebear.file.Settings;
 import com.bluebear.ui.SkinLoader;
 import com.bluebear.ui.localization.LocalizedLabel;
 import com.bluebear.ui.localization.LocalizedTextArea;
 
 public class SettingSwitchItem extends SettingItem {
-    private static final Drawable up = new TextureRegionDrawable(SkinLoader.getUITexture("UI_Settings_BackValueBlue"));
-    private static final Drawable down = new TextureRegionDrawable(SkinLoader.getUITexture("UI_Settings_BackValue"));
+    private static final Drawable up = SkinLoader.getUIDrawable("UI_Settings_BackValueBlue");
+    private static final Drawable down = SkinLoader.getUIDrawable("UI_Settings_BackValue");
     private final String setting;
     private final Table table;
     private final LocalizedLabel label;
@@ -22,9 +22,9 @@ public class SettingSwitchItem extends SettingItem {
         super(key, tooltipKey, tooltipArea);
         this.setting = setting;
 
-        table = new Table().padLeft(50).padRight(50);
+        table = new Table().padLeft(50 * Settings.getScaleFactor()).padRight(50 * Settings.getScaleFactor());
         table.setTouchable(Touchable.enabled);
-        table.add(new Image(SkinLoader.getUITexture("UI_Journal_BigMenuArrow")));
+        table.add(new Image(SkinLoader.getUIDrawable("UI_Journal_BigMenuArrow")));
 
         label = new LocalizedLabel(null, "switch");
         label.setAlignment(Align.center);
@@ -37,9 +37,9 @@ public class SettingSwitchItem extends SettingItem {
                 sync();
             }
         });
-        table.add(label).prefWidth(300);
+        table.add(label).prefWidth(300 * Settings.getScaleFactor());
 
-        table.add(new Image(SkinLoader.getUITexture("UI_Journal_BigMenuArrow_Right")));
+        table.add(new Image(SkinLoader.getUIDrawable("UI_Journal_BigMenuArrow_Right")));
 
         container.setActor(table);
     }

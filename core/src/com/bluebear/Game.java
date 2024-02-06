@@ -4,7 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.bluebear.ui.SkinLoader;
 import com.bluebear.ui.screens.GameScreen;
 import com.bluebear.ui.screens.MainMenuScreen;
-import com.bluebear.ui.settings.Settings;
+import com.bluebear.file.Settings;
 
 public class Game extends com.badlogic.gdx.Game {
 	private MainMenuScreen mainMenuScreen;

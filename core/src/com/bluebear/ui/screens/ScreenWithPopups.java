@@ -122,4 +122,5 @@ public class ScreenWithPopups extends ScreenAdapter {
         super.hide();
         Gdx.input.setInputProcessor(null);
     }
+
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.bluebear.file.Settings;
 import com.bluebear.ui.SkinLoader;
 import com.bluebear.ui.localization.LocalizedTextArea;
 import com.bluebear.ui.widgets.AutoSizeSlider;
@@ -55,6 +56,6 @@ public class SettingsSliderItem extends SettingItem {
         float leftmost = slider.getLeftMost();
         float rightmost = slider.getRightMost();
         float x = leftmost + (rightmost - leftmost) * percent - label.getPrefWidth() / 2;
-        label.setPosition(x, label.getPrefHeight() / 2 + 3, Align.left);
+        label.setPosition(x, label.getPrefHeight() / 2 + 3 * Settings.getScaleFactor(), Align.left);
     }
 }

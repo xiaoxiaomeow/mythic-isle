@@ -1,29 +1,21 @@
 package com.bluebear.ui.widgets;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.bluebear.ui.localization.LocalizedTextButton;
+import com.bluebear.ui.SkinLoader;
 
 public class PointerButton extends LocalizedTextButton {
-    private static Texture pointerTexture;
-    private static Texture getPointerTexture () {
-        if (pointerTexture == null) {
-            pointerTexture = new Texture(Gdx.files.internal("ui/UI_Dialogue_stick.png"));
-        }
-        return pointerTexture;
-    }
     private final Image pointer;
     public PointerButton (String key) {
         this(key, "pointer");
     }
     public PointerButton (String key, String style) {
         super(key, style);
-        pointer = new Image(getPointerTexture());
+        pointer = new Image(SkinLoader.getUIDrawable("UI_Dialogue_stick"));
         pointer.setVisible(false);
         pointer.setColor(new Color(0x3D2F60FF));
         addListener(new ClickListener() {

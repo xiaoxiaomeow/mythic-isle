@@ -3,6 +3,7 @@ package com.bluebear.ui.settings;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.bluebear.file.Settings;
 import com.bluebear.ui.localization.LocalizedSelectBox;
 import com.bluebear.ui.localization.LocalizedTextArea;
 

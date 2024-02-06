@@ -2,6 +2,7 @@ package com.bluebear.ui.popups;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.bluebear.file.Settings;
 import com.bluebear.ui.SkinLoader;
 import com.bluebear.ui.localization.LocalizedTextArea;
 import com.bluebear.ui.settings.SettingGeneralTerm;
@@ -15,25 +16,25 @@ public class SettingsPopup extends FullScreenPopup {
         String[] tabNames = new String[]{"Game", "Controls", "Graphics", "Sound"};
 
         for (String tabName : tabNames) {
-            Table outerTable = new Table();
-            outerTable.pad(70);
+            Table outerTable = new Table().pad(70 * Settings.getScaleFactor());
             outerTable.setFillParent(true);
             outerTable.align(Align.topLeft);
 
             Table leftInner = new Table().align(Align.topLeft);
             Table leftBox = new DecoratedScrollPane(leftInner);
 
-            Table rightBox = new Table().align(Align.topLeft).pad(10);
-            Image boxTop = new Image(SkinLoader.getUITexture("UI_Settings_ArtTop"));
+            Table rightBox = new Table().align(Align.topLeft).pad(10 * Settings.getScaleFactor());
+
+            Image boxTop = new Image(SkinLoader.getUIDrawable("UI_Settings_ArtTop"));
             rightBox.add(boxTop).row();
 
             Table tooltipTable = new Table();
             LocalizedTextArea tooltipArea = new LocalizedTextArea(null, "tooltip_box");
             tooltipArea.setDisabled(true);
             tooltipTable.add(tooltipArea).fillX().expandX();
-            rightBox.add(tooltipTable).fillX().prefHeight(1000).row();
+            rightBox.add(tooltipTable).fillX().prefHeight(1000 * Settings.getScaleFactor()).row();
 
-            Image boxBottom = new Image(SkinLoader.getUITexture("UI_Settings_ArtBottom"));
+            Image boxBottom = new Image(SkinLoader.getUIDrawable("UI_Settings_ArtBottom"));
             rightBox.add(boxBottom).row();
 
             switch (tabName) {
@@ -54,10 +55,10 @@ public class SettingsPopup extends FullScreenPopup {
     public Table packSettingBox (String title, Table contents) {
         Table outer = new Table();
 
-        outer.add(new SettingGeneralTerm(title)).fillX().expandX().colspan(3).padBottom(2).row();
-        outer.add(new Image(SkinLoader.getUINinePatch("UI_Journal_BigMenuLine"))).prefHeight(0).padLeft(28).fillY();
+        outer.add(new SettingGeneralTerm(title)).fillX().expandX().colspan(3).padBottom(2 * Settings.getScaleFactor()).row();
+        outer.add(new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenuLine"))).prefHeight(0).padLeft(14 * Settings.getScaleFactor()).fillY();
         outer.add(contents).expandX().fillX();
-        outer.add(new Image(SkinLoader.getUINinePatch("UI_Journal_BigMenuLine_Right"))).prefHeight(0).padRight(28).fillY();
+        outer.add(new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenuLine_Right"))).prefHeight(0).padRight(14 * Settings.getScaleFactor()).fillY();
 
         return outer;
     }
