@@ -14,7 +14,7 @@ import com.bluebear.ui.localization.LocalizedTextButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FullScreenPopup extends PopupWindow {
+public class FullScreenPopup extends Popup {
     private final Table tabRow;
     private final Container<Table> contentContainer;
 
@@ -47,7 +47,7 @@ public class FullScreenPopup extends PopupWindow {
         Table innerTable = new Table();
         innerTable.setBackground(new TextureRegionDrawable(SkinLoader.getUITexture("UI_BackgroundPaper")));
         contentContainer = new Container<>();
-        contentContainer.align(Align.topLeft);
+        contentContainer.align(Align.bottomLeft);
         innerTable.add(contentContainer).expand().fill();
 
         outerTable.add(innerTable).padTop(-25).colspan(2).fill().expand();

@@ -5,10 +5,7 @@ import com.bluebear.ui.SkinLoader;
 
 public class LocalizedLabel extends Label implements Localizable {
     private String key;
-    private String style;
-    public LocalizedLabel (String key) {
-        this(key, "default");
-    }
+    private final String style;
     public LocalizedLabel (String key, String style) {
         super(LocalizationManager.get(key), SkinLoader.getSkin(), style);
         this.key = key;
@@ -23,10 +20,6 @@ public class LocalizedLabel extends Label implements Localizable {
     }
     public void setKey(String key) {
         this.key = key;
-        update();
-    }
-    public void setStyle(String style) {
-        this.style = style;
         update();
     }
 }

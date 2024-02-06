@@ -2,7 +2,6 @@ package com.bluebear;
 
 import com.badlogic.gdx.Screen;
 import com.bluebear.ui.SkinLoader;
-import com.bluebear.ui.localization.LocalizationManager;
 import com.bluebear.ui.screens.GameScreen;
 import com.bluebear.ui.screens.MainMenuScreen;
 import com.bluebear.ui.settings.Settings;
@@ -29,4 +28,5 @@ public class Game extends com.badlogic.gdx.Game {
 	public void dispose () {
 		mainMenuScreen.dispose();
 	}
+
 }

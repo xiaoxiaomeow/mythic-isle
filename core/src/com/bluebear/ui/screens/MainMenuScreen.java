@@ -8,8 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.bluebear.Game;
-import com.bluebear.ui.popups.FullScreenPopup;
-import com.bluebear.ui.popups.PopupWindow;
+import com.bluebear.ui.popups.SaveLoadPopup;
 import com.bluebear.ui.popups.SettingsPopup;
 import com.bluebear.ui.widgets.PointerButton;
 
@@ -43,11 +42,16 @@ public class MainMenuScreen extends ScreenWithPopups {
                 game.createGame();
             }
         });
+        loadGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                popup(new SaveLoadPopup());
+            }
+        });
         settingsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PopupWindow settings = new SettingsPopup();
-                popup(settings);
+                popup(new SettingsPopup());
             }
         });
         exitButton.addListener(new ClickListener() {
@@ -62,7 +66,7 @@ public class MainMenuScreen extends ScreenWithPopups {
             buttonTable.add(mainMenuButton).align(Align.left).row();
         }
 
-        mainTable.add(buttonContainer).padLeft(2750).padTop(300);
+        mainTable.add(buttonContainer).align(Align.topLeft).padLeft(2750).padBottom(580);
     }
 
     @Override

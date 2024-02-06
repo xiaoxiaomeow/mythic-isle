@@ -14,14 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.bluebear.Constants;
 import com.bluebear.Game;
-import com.bluebear.ui.localization.LocalizationManager;
 import com.bluebear.ui.popups.Popup;
-import com.bluebear.ui.popups.PopupWindow;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ScreenWithPopups extends ScreenAdapter {
     public Game game;
@@ -32,16 +26,20 @@ public class ScreenWithPopups extends ScreenAdapter {
     public ScreenWithPopups (Game game) {
         this.game = game;
 
-        stage = new Stage(new FillViewport(Constants.WIDTH, Constants.HEIGHT));
+        FillViewport viewport = new FillViewport(3840, 2160);
+        stage = new Stage(viewport);
         mainStack = new Stack();
         background = new Image();
         mainTable = new Table();
 
         mainStack.setFillParent(true);
-        stage.addActor(mainStack);
         mainStack.add(background);
+
+        mainTable.align(Align.bottomLeft);
+        mainTable.setFillParent(true);
         mainStack.add(mainTable);
-        mainTable.align(Align.topLeft);
+
+        stage.addActor(mainStack);
 
         stage.addListener(new InputListener(){
             @Override
@@ -55,19 +53,6 @@ public class ScreenWithPopups extends ScreenAdapter {
                 }
                 return false;
             }
-
-            @Override
-            public boolean keyTyped(InputEvent event, char character) {
-                if (character == 'e') {
-                    LocalizationManager.changeTo(LocalizationManager.Locale.en);
-                    return true;
-                }
-                if (character == 'c') {
-                    LocalizationManager.changeTo(LocalizationManager.Locale.zh);
-                    return true;
-                }
-                return false;
-            }
         });
     }
 
@@ -75,17 +60,17 @@ public class ScreenWithPopups extends ScreenAdapter {
         return false;
     }
 
-    public void popup (PopupWindow popup) {
+    public void popup (Popup popup) {
         popup.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.1f)));
         mainStack.addActor(popup);
     }
-    public void close (PopupWindow popup) {
+    public void close (Popup popup) {
         popup.requestClose();
     }
     public boolean closeTop () {
         Actor actor = mainStack.getChild(mainStack.getChildren().size - 1);
-        if (actor instanceof PopupWindow) {
-            close((PopupWindow) actor);
+        if (actor instanceof Popup) {
+            close((Popup) actor);
             return true;
         }
         return false;

@@ -1,15 +1,11 @@
 package com.bluebear.ui.localization;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.bluebear.ui.SkinLoader;
 
 public class LocalizedTextButton extends TextButton implements Localizable {
     private String key;
-    private String style;
-    public LocalizedTextButton(String key) {
-        this(key, "default");
-    }
+    private final String style;
     public LocalizedTextButton(String key, String style) {
         super(LocalizationManager.get(key), SkinLoader.getSkin(), style);
         this.key = key;
@@ -24,10 +20,6 @@ public class LocalizedTextButton extends TextButton implements Localizable {
     }
     public void setKey(String key) {
         this.key = key;
-        update();
-    }
-    public void setStyle(String style) {
-        this.style = style;
         update();
     }
 }
