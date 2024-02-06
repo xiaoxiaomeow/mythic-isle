@@ -39,6 +39,7 @@ public class LocalizationManager {
                 outdated.add(reference);
             }
         }
+
         uiElements.removeAll(outdated);
     }
     public static String allCharacters () {

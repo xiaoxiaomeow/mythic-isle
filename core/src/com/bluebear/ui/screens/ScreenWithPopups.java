@@ -13,9 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bluebear.Game;
 import com.bluebear.ui.popups.Popup;
+import com.bluebear.ui.resolution.ResolutionManager;
 
 public class ScreenWithPopups extends ScreenAdapter {
     public Game game;
@@ -26,7 +28,7 @@ public class ScreenWithPopups extends ScreenAdapter {
     public ScreenWithPopups (Game game) {
         this.game = game;
 
-        FillViewport viewport = new FillViewport(3840, 2160);
+        Viewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
         mainStack = new Stack();
         background = new Image();
@@ -88,6 +90,7 @@ public class ScreenWithPopups extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        ResolutionManager.updateUIElements();
     }
 
     @Override
