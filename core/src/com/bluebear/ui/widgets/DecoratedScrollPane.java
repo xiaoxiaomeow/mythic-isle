@@ -6,14 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.bluebear.file.Settings;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.ResizableTable;
+import com.bluebear.ui.resolution.SkinLoader;
 
-public class DecoratedScrollPane extends Table {
+public class DecoratedScrollPane extends ResizableTable {
     public DecoratedScrollPane (Actor content) {
-        align(Align.topLeft).pad(10 * Settings.getScaleFactor());
+        align(Align.topLeft).pad(10);
         Image topLine = new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenu_Border"));
         add(topLine).expandX().fillX().minHeight(topLine.getHeight()).row();
 

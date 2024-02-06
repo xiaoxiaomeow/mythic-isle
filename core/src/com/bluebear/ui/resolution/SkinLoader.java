@@ -1,4 +1,4 @@
-package com.bluebear.ui;
+package com.bluebear.ui.resolution;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
@@ -43,8 +42,9 @@ public class SkinLoader {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + LocalizationManager.allCharacters();
         parameter.minFilter = Texture.TextureFilter.Linear;
-        parameter.magFilter = Texture.TextureFilter.MipMap;
+        parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.size = (int) (size * Settings.getScaleFactor());
+        // parameter.gamma = 1.5f;
 
         BitmapFont font = generator.generateFont(parameter);
 
@@ -62,12 +62,17 @@ public class SkinLoader {
         }
     }
     public static NinePatchDrawable getUIDrawable(String key) {
+        if (key == null) {
+            return null;
+        }
         Texture texture = UITextures.get(key);
         NinePatch ninePatch = new NinePatch(texture, 0, 0, 0, 0);
-        ninePatch.scale(Settings.getWidthScaleFactor(), Settings.getHeightScaleFactor());
-        return new NinePatchDrawable(ninePatch);
+        return new ResizableNinePatchDrawable(ninePatch);
     }
     public static NinePatchDrawable getUINinePatchDrawable (String key) {
+        if (key == null) {
+            return null;
+        }
         Texture texture = UITextures.get(key);
         NinePatch ninePatch;
         int w = texture.getWidth();
@@ -79,8 +84,7 @@ public class SkinLoader {
             int r = (w - 1) / 2;
             ninePatch = new NinePatch(texture, r, r, 0, 0);
         }
-        ninePatch.scale(Settings.getWidthScaleFactor(), Settings.getHeightScaleFactor());
-        return new NinePatchDrawable(ninePatch);
+        return new ResizableNinePatchDrawable(ninePatch);
     }
     public static void resetSkin () {
         skin = null;

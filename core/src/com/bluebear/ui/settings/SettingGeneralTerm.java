@@ -1,17 +1,16 @@
 package com.bluebear.ui.settings;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.bluebear.file.Settings;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.ResizableTable;
+import com.bluebear.ui.resolution.SkinLoader;
 import com.bluebear.ui.localization.LocalizedLabel;
 
-public class SettingGeneralTerm extends Table {
+public class SettingGeneralTerm extends ResizableTable {
     public SettingGeneralTerm (String key) {
         align(Align.left);
-        padLeft(20 * Settings.getScaleFactor());
+        padLeft(20);
         NinePatchDrawable backgroundDrawable = SkinLoader.getUINinePatchDrawable("UI_CharScreen_NormalBlock");
         backgroundDrawable.setPadding(0, 0, 0, 0);
         setBackground(backgroundDrawable);

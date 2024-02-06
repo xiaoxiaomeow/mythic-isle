@@ -2,7 +2,7 @@ package com.bluebear.ui.localization;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.utils.Array;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.SkinLoader;
 
 public class LocalizedSelectBox extends SelectBox<String> implements Localizable {
 

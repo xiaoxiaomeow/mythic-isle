@@ -2,8 +2,9 @@ package com.bluebear.ui.popups;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import com.bluebear.file.Settings;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.ResizableCell;
+import com.bluebear.ui.resolution.ResizableTable;
+import com.bluebear.ui.resolution.SkinLoader;
 import com.bluebear.ui.localization.LocalizedTextArea;
 import com.bluebear.ui.settings.SettingGeneralTerm;
 import com.bluebear.ui.settings.SettingSelectionItem;
@@ -16,14 +17,14 @@ public class SettingsPopup extends FullScreenPopup {
         String[] tabNames = new String[]{"Game", "Controls", "Graphics", "Sound"};
 
         for (String tabName : tabNames) {
-            Table outerTable = new Table().pad(70 * Settings.getScaleFactor());
+            Table outerTable = new ResizableTable().pad(70);
             outerTable.setFillParent(true);
             outerTable.align(Align.topLeft);
 
             Table leftInner = new Table().align(Align.topLeft);
             Table leftBox = new DecoratedScrollPane(leftInner);
 
-            Table rightBox = new Table().align(Align.topLeft).pad(10 * Settings.getScaleFactor());
+            Table rightBox = new ResizableTable().align(Align.topLeft).pad(10);
 
             Image boxTop = new Image(SkinLoader.getUIDrawable("UI_Settings_ArtTop"));
             rightBox.add(boxTop).row();
@@ -32,7 +33,7 @@ public class SettingsPopup extends FullScreenPopup {
             LocalizedTextArea tooltipArea = new LocalizedTextArea(null, "tooltip_box");
             tooltipArea.setDisabled(true);
             tooltipTable.add(tooltipArea).fillX().expandX();
-            rightBox.add(tooltipTable).fillX().prefHeight(1000 * Settings.getScaleFactor()).row();
+            new ResizableCell(rightBox.add(tooltipTable).fillX()).prefHeight(1000).row();
 
             Image boxBottom = new Image(SkinLoader.getUIDrawable("UI_Settings_ArtBottom"));
             rightBox.add(boxBottom).row();
@@ -55,10 +56,10 @@ public class SettingsPopup extends FullScreenPopup {
     public Table packSettingBox (String title, Table contents) {
         Table outer = new Table();
 
-        outer.add(new SettingGeneralTerm(title)).fillX().expandX().colspan(3).padBottom(2 * Settings.getScaleFactor()).row();
-        outer.add(new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenuLine"))).prefHeight(0).padLeft(14 * Settings.getScaleFactor()).fillY();
+        new ResizableCell(outer.add(new SettingGeneralTerm(title)).fillX().expandX().colspan(3)).padBottom(2).row();
+        new ResizableCell(outer.add(new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenuLine"))).fillY()).prefHeight(0).padLeft(28);
         outer.add(contents).expandX().fillX();
-        outer.add(new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenuLine_Right"))).prefHeight(0).padRight(14 * Settings.getScaleFactor()).fillY();
+        new ResizableCell(outer.add(new Image(SkinLoader.getUINinePatchDrawable("UI_Journal_BigMenuLine_Right"))).fillY()).prefHeight(0).padRight(28);
 
         return outer;
     }

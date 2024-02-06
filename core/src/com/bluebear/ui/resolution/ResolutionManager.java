@@ -1,10 +1,5 @@
 package com.bluebear.ui.resolution;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.I18NBundle;
-import com.bluebear.ui.SkinLoader;
-
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +13,7 @@ public class ResolutionManager {
         SkinLoader.resetSkin();
 
         Set<WeakReference<Resizable>> outdated = new HashSet<>();
-        for (WeakReference<Resizable> reference : uiElements) {
+        for (WeakReference<Resizable> reference : new HashSet<>(uiElements)) {
             Resizable uiElement = reference.get();
             if (uiElement != null) {
                 uiElement.update();

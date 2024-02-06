@@ -1,7 +1,7 @@
 package com.bluebear.ui.localization;
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.SkinLoader;
 
 public class LocalizedTextButton extends TextButton implements Localizable {
     private String key;

@@ -3,7 +3,7 @@ package com.bluebear.ui.localization;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.SkinLoader;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
@@ -32,7 +32,7 @@ public class LocalizationManager {
         SkinLoader.resetSkin();
 
         Set<WeakReference<Localizable>> outdated = new HashSet<>();
-        for (WeakReference<Localizable> reference : uiElements) {
+        for (WeakReference<Localizable> reference : new HashSet<>(uiElements)) {
             Localizable uiElement = reference.get();
             if (uiElement != null) {
                 uiElement.update();

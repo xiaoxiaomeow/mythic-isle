@@ -5,13 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.bluebear.file.Settings;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.ResizableCell;
+import com.bluebear.ui.resolution.ResizableTable;
+import com.bluebear.ui.resolution.SkinLoader;
 
-public class FoldBox extends Table {
+public class FoldBox extends ResizableTable {
     public FoldBox (String title, Actor content) {
         align(Align.left);
-        padLeft(20 * Settings.getScaleFactor());
+        padLeft(20);
         NinePatchDrawable backgroundDrawable = SkinLoader.getUINinePatchDrawable("UI_CharScreen_NormalBlock");
         backgroundDrawable.setPadding(0, 0, 0, 0);
         setBackground(backgroundDrawable);
@@ -20,15 +21,15 @@ public class FoldBox extends Table {
         add(point);
 
         ImageButton triangle = new ImageButton(SkinLoader.getSkin());
-        Cell<ImageButton> cell = add(triangle).padLeft(-60 * Settings.getScaleFactor());
+        ResizableCell cell = new ResizableCell(add(triangle)).padLeft(-50);
         triangle.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 content.setVisible(triangle.isChecked());
                 if (triangle.isChecked()) {
-                    cell.padLeft(-50 * Settings.getScaleFactor());
+                    cell.padLeft(-50);
                 } else {
-                    cell.padLeft(-40 * Settings.getScaleFactor());
+                    cell.padLeft(-40);
                 }
             }
         });

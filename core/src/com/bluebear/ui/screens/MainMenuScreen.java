@@ -11,14 +11,15 @@ import com.bluebear.Game;
 import com.bluebear.file.Settings;
 import com.bluebear.ui.popups.SaveLoadPopup;
 import com.bluebear.ui.popups.SettingsPopup;
+import com.bluebear.ui.resolution.ResizableCell;
+import com.bluebear.ui.resolution.SkinLoader;
 import com.bluebear.ui.widgets.PointerButton;
 
 public class MainMenuScreen extends ScreenWithPopups {
     public MainMenuScreen(Game game) {
         super(game);
 
-        Texture backgroundTexture = new Texture(Gdx.files.internal("ui/UI_MainMenu.png"));
-        background.setDrawable(new TextureRegionDrawable(backgroundTexture));
+        background.setDrawable(SkinLoader.getUIDrawable("UI_MainMenu"));
 
         Table buttonTable = new Table();
         Container<Table> buttonContainer = new Container<>(buttonTable);
@@ -63,11 +64,11 @@ public class MainMenuScreen extends ScreenWithPopups {
         });
 
         for (PointerButton mainMenuButton : mainMenuButtons) {
-            buttonTable.add(mainMenuButton.getPointer()).padRight(10 * Settings.getScaleFactor());
+            new ResizableCell(buttonTable.add(mainMenuButton.getPointer())).padRight(10);
             buttonTable.add(mainMenuButton).align(Align.left).row();
         }
 
-        mainTable.add(buttonContainer).align(Align.topLeft).padLeft(2750 * Settings.getScaleFactor()).padBottom(580 * Settings.getScaleFactor());
+        new ResizableCell(mainTable.add(buttonContainer).align(Align.topLeft)).padLeft(2750).padBottom(580);
     }
 
     @Override

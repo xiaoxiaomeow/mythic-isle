@@ -8,13 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.bluebear.file.Settings;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.*;
 import com.bluebear.ui.localization.LocalizedTextButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FullScreenPopup extends Popup {
+public class FullScreenPopup extends Popup implements Resizable {
     private final Table tabRow;
     private final Container<Table> contentContainer;
 
@@ -29,14 +29,14 @@ public class FullScreenPopup extends Popup {
         outerTable.setFillParent(true);
         outerTable.setBackground(SkinLoader.getUIDrawable("UI_BackgroundTable"));
 
-        tabRow = new Table();
+        tabRow = new ResizableTable();
         tabRow.align(Align.topLeft);
-        tabRow.padTop(10 * Settings.getScaleFactor()).padLeft(200 * Settings.getScaleFactor());
+        tabRow.padTop(10).padLeft(200);
         outerTable.add(tabRow).fillX();
         tabRow.setZIndex(1);
 
         Button closeButton = new Button(SkinLoader.getSkin(), "close");
-        outerTable.add(closeButton).align(Align.right).padRight(20 * Settings.getScaleFactor()).padTop(20 * Settings.getScaleFactor()).row();
+        new ResizableCell(outerTable.add(closeButton).align(Align.right)).padRight(20).padTop(20).row();
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -50,22 +50,19 @@ public class FullScreenPopup extends Popup {
         contentContainer.align(Align.bottomLeft);
         innerTable.add(contentContainer).expand().fill();
 
-        outerTable.add(innerTable).padTop(-25 * Settings.getScaleFactor()).colspan(2).fill().expand();
+        new ResizableCell(outerTable.add(innerTable).colspan(2).fill().expand()).padTop(-25);
         innerTable.setZIndex(0);
         add(outerTable);
 
         tabButtons = new ArrayList<>();
         tabContents = new ArrayList<>();
 
-        selector = new Image(SkinLoader.getUIDrawable("UI_TopMenuActive"));
-        tabRow.addActor(selector);
-        selector.setZIndex(1);
-        selector.setVisible(false);
+        ResolutionManager.register(this);
     }
 
     private final List<LocalizedTextButton> tabButtons;
     private final List<Table> tabContents;
-    private final Image selector;
+    private Image selector;
     protected void addTab (String tabNameKey, Table content) {
         int index = tabButtons.size();
 
@@ -77,7 +74,7 @@ public class FullScreenPopup extends Popup {
             }
         });
         tabButtons.add(tab);
-        tabRow.add(tab).padTop(20 * Settings.getScaleFactor()).prefWidth(500 * Settings.getScaleFactor());
+        new ResizableCell(tabRow.add(tab)).padTop(20).prefWidth(500);
         tab.setZIndex(index + 2);
 
         Image tabSeparator = new Image(SkinLoader.getUIDrawable("UI_BackgroundTableTopMenuSelector"));
@@ -90,13 +87,26 @@ public class FullScreenPopup extends Popup {
     protected void selectTab (int index) {
         selected = index;
         update();
-        selector.setVisible(true);
         contentContainer.setActor(tabContents.get(index));
     }
-    public void update () {
+
+    @Override
+    public void layout() {
+        super.layout();
+
         LocalizedTextButton tabButton = tabButtons.get(selected);
         float x = Math.max(tabButton.getX(), 200 * Settings.getScaleFactor()) - 100 * Settings.getScaleFactor();
         float y = -70 * Settings.getScaleFactor();
         selector.setPosition(x, y);
+    }
+
+    @Override
+    public void update () {
+        if (selector != null) {
+            tabRow.removeActor(selector);
+        }
+        selector = new Image(SkinLoader.getUIDrawable("UI_TopMenuActive"));
+        tabRow.addActor(selector);
+        selector.setZIndex(1);
     }
 }

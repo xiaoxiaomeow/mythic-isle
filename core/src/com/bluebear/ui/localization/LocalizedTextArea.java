@@ -1,6 +1,6 @@
 package com.bluebear.ui.localization;
 
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.SkinLoader;
 import com.bluebear.ui.widgets.AutoResizeTextArea;
 
 public class LocalizedTextArea extends AutoResizeTextArea implements Localizable {

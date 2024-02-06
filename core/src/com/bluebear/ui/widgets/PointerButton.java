@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.bluebear.ui.localization.LocalizedTextButton;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.SkinLoader;
 
 public class PointerButton extends LocalizedTextButton {
     private final Image pointer;

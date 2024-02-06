@@ -1,7 +1,7 @@
 package com.bluebear;
 
 import com.badlogic.gdx.Screen;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.SkinLoader;
 import com.bluebear.ui.screens.GameScreen;
 import com.bluebear.ui.screens.MainMenuScreen;
 import com.bluebear.file.Settings;

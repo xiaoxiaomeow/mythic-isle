@@ -7,21 +7,21 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-import com.bluebear.file.Settings;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.ResizableCell;
+import com.bluebear.ui.resolution.ResizableTable;
+import com.bluebear.ui.resolution.SkinLoader;
 import com.bluebear.ui.localization.LocalizedLabel;
 import com.bluebear.ui.localization.LocalizedTextArea;
 
-public class SettingItem extends Table {
+public class SettingItem extends ResizableTable {
     protected Container<Actor> container;
     public SettingItem (String key, String tooltipKey, LocalizedTextArea tooltipArea) {
-        align(Align.left).padTop(3 * Settings.getScaleFactor()).padLeft(20 * Settings.getScaleFactor()).setTouchable(Touchable.enabled);
+        align(Align.left).padTop(3).padLeft(20).padBottom(3).setTouchable(Touchable.enabled);
 
         Image point = new Image(SkinLoader.getUIDrawable("UI_CharScreen_Class_Point"));
-        add(point).align(Align.left).padRight(10 * Settings.getScaleFactor());
+        new ResizableCell(add(point).align(Align.left)).padRight(10);
 
         LocalizedLabel label = new LocalizedLabel(key, "settingTitle");
         add(label).align(Align.left);
@@ -30,9 +30,8 @@ public class SettingItem extends Table {
         add(empty).align(Align.left).expandX().fillX();
 
         container = new Container<>().align(Align.center);
-        add(container).align(Align.center).minWidth(1000 * Settings.getScaleFactor());
+        new ResizableCell(add(container).align(Align.center)).minWidth(1000).row();
 
-        row().padBottom(3 * Settings.getScaleFactor());
         Image line = new Image(SkinLoader.getUIDrawable("UI_Journal_Line"));
         add(line).colspan(4).expandX().fillX();
 

@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.bluebear.file.Settings;
-import com.bluebear.ui.SkinLoader;
+import com.bluebear.ui.resolution.ResizableCell;
+import com.bluebear.ui.resolution.ResizableTable;
+import com.bluebear.ui.resolution.SkinLoader;
 import com.bluebear.ui.localization.LocalizedLabel;
 import com.bluebear.ui.localization.LocalizedTextArea;
 
@@ -22,7 +24,7 @@ public class SettingSwitchItem extends SettingItem {
         super(key, tooltipKey, tooltipArea);
         this.setting = setting;
 
-        table = new Table().padLeft(50 * Settings.getScaleFactor()).padRight(50 * Settings.getScaleFactor());
+        table = new ResizableTable().padLeft(50).padRight(50);
         table.setTouchable(Touchable.enabled);
         table.add(new Image(SkinLoader.getUIDrawable("UI_Journal_BigMenuArrow")));
 
@@ -37,7 +39,7 @@ public class SettingSwitchItem extends SettingItem {
                 sync();
             }
         });
-        table.add(label).prefWidth(300 * Settings.getScaleFactor());
+        new ResizableCell(table.add(label)).prefWidth(300);
 
         table.add(new Image(SkinLoader.getUIDrawable("UI_Journal_BigMenuArrow_Right")));
 

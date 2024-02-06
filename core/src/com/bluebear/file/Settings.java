@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Preferences;
 import com.bluebear.ui.localization.LocalizationManager;
+import com.bluebear.ui.resolution.SkinLoader;
 
 import java.util.*;
 
@@ -11,8 +12,6 @@ public class Settings {
     private static final Preferences pref = Gdx.app.getPreferences("mystic isle.preferences");
     private static final Map<String, List<SettingChangedListener>> listeners = new HashMap<>();
     private static boolean initialized = false;
-    private static int initialWidth;
-    private static int initialHeight;
     public static void initialize () {
         if (initialized) return;
         loadListeners();
@@ -29,8 +28,6 @@ public class Settings {
                 }
             }
         }
-        initialWidth = getWidth();
-        initialHeight = getHeight();
         initialized = true;
     }
     private static void loadDefaultPreferences () {
@@ -55,9 +52,6 @@ public class Settings {
 
         pref.putBoolean("initialized", true);
     }
-    public static int getInitialWidth () {
-        return initialWidth;
-    }
     public static int getWidth () {
         if (getString("displayMode").equals("fullscreen")) {
             return Gdx.graphics.getWidth();
@@ -66,9 +60,6 @@ public class Settings {
             return Integer.parseInt(size[0]);
         }
 
-    }
-    public static int getInitialHeight () {
-        return initialHeight;
     }
     public static int getHeight () {
         if (getString("displayMode").equals("fullscreen")) {
@@ -79,10 +70,10 @@ public class Settings {
         }
     }
     public static float getWidthScaleFactor () {
-        return 1.0f * getInitialWidth() / 3840;
+        return 1.0f * getWidth() / 3840;
     }
     public static float getHeightScaleFactor () {
-        return 1.0f * getInitialHeight() / 2160;
+        return 1.0f * getHeight() / 2160;
     }
     public static float getScaleFactor () {
         return Math.min(getWidthScaleFactor(), getHeightScaleFactor());
@@ -108,6 +99,7 @@ public class Settings {
                     Gdx.graphics.setWindowedMode(width, height);
                     break;
             }
+            SkinLoader.resetSkin();
             LocalizationManager.updateUIElements();
         };
         addSettingsChangedListener("displayMode", displayListener);
